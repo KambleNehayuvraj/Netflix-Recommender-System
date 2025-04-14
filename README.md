@@ -10,11 +10,12 @@ To run a Flask deployment tests, run the following command
 #Deployment
 Prepare your dataset:
 Data Extraction
-    2. Exploratory Data Analysis(EDA)
-    3. Feature Engineering
-    4. Model Building and Tuning
-    5. Building Flask API
-    6. Pushing code to Github
+    1. Exploratory Data Analysis(EDA)
+    2. Feature Engineering
+    3. Model Building and Tuning
+    4. Building Flask API
+    5. Pushing code to Github
 #Demo
 
+![image](https://github.com/user-attachments/assets/f6b8c475-952d-4add-bf71-b09014c086df)
 
