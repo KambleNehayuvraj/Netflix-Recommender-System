@@ -1,19 +1,17 @@
+import pickle
+import urllib.request
+
+import bs4 as bs
 import numpy as np
 import pandas as pd
 from flask import Flask, render_template, request
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-import json
-import bs4 as bs
-import urllib.request
-import pickle
-import requests
 
 # load the nlp model and tfidf vectorizer from disk
 filename = 'nlp_model.pkl'
 clf = pickle.load(open(filename, 'rb'))
-vectorizer = pickle.load(open('tranform.pkl','rb'))
-
+vectorizer = pickle.load(open('transform.pkl','rb'))
 def create_similarity():
     data = pd.read_csv('main_data.csv')
     # creating a count matrix
@@ -130,7 +128,15 @@ def recommend():
     cast_details = {cast_names[i]:[cast_ids[i], cast_profiles[i], cast_bdays[i], cast_places[i], cast_bios[i]] for i in range(len(cast_places))}
 
     # web scraping to get user reviews from IMDB site
-    sauce = urllib.request.urlopen('https://www.imdb.com/title/{}/reviews?ref_=tt_ov_rt'.format(imdb_id)).read()
+    import urllib.request
+
+    url = f"https://www.imdb.com/title/{imdb_id}/reviews?ref_=tt_ov_rt"
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36"}
+
+    req = urllib.request.Request(url, headers=headers)
+    sauce = urllib.request.urlopen(req).read()
+
     soup = bs.BeautifulSoup(sauce,'lxml')
     soup_result = soup.find_all("div",{"class":"text show-more__control"})
 
